@@ -1,3 +1,47 @@
 <div>
-  {{ formJson | json }}
+  {{ form.value | json }}
+</div>
+
+<br>
+<br>
+<br>
+<div>
+
+  <div>
+    
+    <form *ngIf="!loading" [formGroup]="form">
+      
+      <div class="subArrayForm">
+        <div class="col-md-12" formArrayName="inputs" *ngFor="let inputForm of fInputs.controls; let i = index">
+          <div class="mb-3" [formGroupName]="i">
+            <label class="form-label">{{ formJson[i]?.templateOptions?.label }}</label>
+            
+            <div *ngIf="formJson[i]?.type == 'input' && formJson[i]?.type_detail == 'text'">
+              <input class="form-control" formControlName="{{ formJson[i]?.key }}" placeholder="{{ formJson[i]?.templateOptions?.placeholder }}">
+            </div>
+            
+            <div *ngIf="formJson[i]?.type == 'input' && formJson[i]?.type_detail == 'email'">
+              <input class="form-control" type="email" formControlName="{{ formJson[i]?.key }}" placeholder="{{ formJson[i]?.templateOptions?.placeholder }}">
+            </div>
+            
+            <div *ngIf="formJson[i]?.type == 'input' && formJson[i]?.type_detail == 'checkbox'">
+              <input class="form-control" type="checkbox" formControlName="{{ formJson[i]?.key }}" placeholder="{{ formJson[i]?.templateOptions?.placeholder }}">
+            </div>
+            
+            <div *ngIf="formJson[i]?.type == 'select' && formJson[i]?.type_detail == 'select'">
+              <select formControlName="{{ formJson[i]?.key }}">
+                <option value="">Seçiniz</option>
+                <option *ngFor="let itemOption of formJson[i]?.templateOptions?.options" value="{{ itemOption.value }}">{{ itemOption.text }}</option>
+              </select>
+            </div>
+
+          </div>
+          <br>
+        </div>
+      </div>
+
+    </form>
+
+  </div>
+
 </div>
