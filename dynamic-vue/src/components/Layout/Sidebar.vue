@@ -35,10 +35,10 @@
           <li class="menu-title">Menu</li>
 
           <li>
-            <a href="index.html">
+            <router-link to="/">
               <i class="uil-home-alt"></i><span class="badge rounded-pill bg-primary float-end">01</span>
               <span>Content Builder</span>
-            </a>
+            </router-link>
           </li>
 
           <li>
@@ -48,14 +48,13 @@
             </a>
             <ul class="sub-menu" aria-expanded="true">
               <li>
-                <a href="javascript: void(0);" class="has-arrow">Vertical</a>
+                <a href="javascript: void(0);" class="has-arrow">Tekli Sayfalar</a>
                 <ul class="sub-menu" aria-expanded="true">
-                  <li><a href="layouts-dark-sidebar.html">Dark Sidebar</a></li>
-                  <li><a href="layouts-compact-sidebar.html">Compact Sidebar</a></li>
-                  <li><a href="layouts-icon-sidebar.html">Icon Sidebar</a></li>
-                  <li><a href="layouts-boxed.html">Boxed Width</a></li>
-                  <li><a href="layouts-preloader.html">Preloader</a></li>
-                  <li><a href="layouts-colored-sidebar.html">Colored Sidebar</a></li>
+                  <li v-for="page in pageData">
+                    <router-link :to="`/contentmanager/${page?.pageType}/${page?._id}`">
+                      {{ page?.pageTitle }}
+                    </router-link>
+                  </li>
                 </ul>
               </li>
               <li>
@@ -78,8 +77,14 @@
 </template>
 
 <script setup>
+  import axios from "axios";
+  import {ref} from "vue";
+
+  let pageData = ref([]);
+
+  const getPages = async () => {
+    pageData.value = (await axios.get('http://172.17.20.174:3001/api/builder/getPages'))?.data;
+  }
+
+  getPages();
 </script>
-
-<style scoped>
-
-</style>

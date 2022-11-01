@@ -3,7 +3,7 @@ export const replaceChar = (val) => {
         return;
     }
 
-    let charMap = {
+    const charMap = {
         Ç: 'C',
         Ö: 'O',
         Ş: 'S',

@@ -10,6 +10,16 @@ const routes = [
                 path: '/',
                 name: 'ContentBuilder',
                 component: () => import('@/views/ContentBuilder.vue')
+            },
+            {
+                path: '/contentmanager/singleType/:id',
+                name: 'SingleManager',
+                component: () => import('@/views/ContentManager/SingleManager.vue')
+            },
+            {
+                path: '/contentmanager/collectionType/:id',
+                name: 'CollectionManager',
+                component: () => import('@/views/ContentManager/CollectionManager.vue')
             }
         ]
     }
