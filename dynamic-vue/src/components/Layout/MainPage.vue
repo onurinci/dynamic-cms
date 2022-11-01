@@ -5,7 +5,9 @@
     <div class="main-content">
       <div class="page-content">
         <div class="container-fluid">
-          <router-view></router-view>
+          <router-view v-slot="{ Component, route }">
+            <component :is="Component" :key="route.path" />
+          </router-view>
         </div>
       </div>
     </div>
