@@ -1,7 +1,9 @@
 <template>
 
-  <Input v-for="(input,index) in pageData.controls" :key="index" :label="input?.label" :name="input?.name" v-model="formValues[index].value"/>
-  abc : {{ formValues }}
+  <div>
+    <Input v-for="(input,index) in pageData.controls" :key="index" :label="input?.label" :name="input?.name" v-model="formValues[index].value"/>
+    abc : {{ formValues }}
+  </div>
 
 </template>
 
