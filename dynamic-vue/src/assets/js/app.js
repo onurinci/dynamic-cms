@@ -6,7 +6,6 @@ setTimeout(() => {
                 "nav-item dropdown active" === t[e].parentElement.getAttribute("class") && (t[e].parentElement.classList.remove("active"), t[e].nextElementSibling.classList.remove("show"));
         }
         function e(t) {
-            console.log(t);
             document.getElementById(t).checked = !0;
         }
         function t() {
@@ -177,8 +176,8 @@ setTimeout(() => {
                     : (document.getElementById("bootstrap-style").setAttribute("href", "assets/css/bootstrap-rtl.min.css"),
                         document.getElementById("app-style").setAttribute("href", "assets/css/app-rtl.min.css"),
                         document.getElementsByTagName("html")[0].setAttribute("dir", "rtl"));
-            }),
-            Waves.init();
+            })
+            //Waves.init();
     })(jQuery);
 
 
