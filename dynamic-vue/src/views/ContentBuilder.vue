@@ -49,41 +49,37 @@
 </template>
 
 <script setup>
-  import {reactive, ref} from "vue";
-  import axios from 'axios';
-  import {replaceChar} from "@/utils/helper.js";
-
-  const rowCount = ref(1);
-  const values = reactive({
-    pageType : "0",
-    pageTitle: "",
-    controls: [
-      {
-        label: "",
-        name: "",
-        field: "",
-        className: ""
-      }
-    ]
-  });
-
-  // Functions
-  const addToValues = () => {
-    rowCount.value++;
-    values.controls.push({
+import {reactive, ref} from "vue";
+import axios from 'axios';
+import {replaceChar} from "@/utils/helper.js";
+const rowCount = ref(1);
+const values = reactive({
+  pageType : "0",
+  pageTitle: "",
+  controls: [
+    {
       label: "",
       name: "",
       field: "",
       className: ""
-    });
-  };
-
-  const send = async () => {
-    const response = await axios.post('http://172.17.20.174:3001/api/builder/createPage', values);
-    console.log(response);
-  }
+    }
+  ]
+});
+// Functions
+const addToValues = () => {
+  rowCount.value++;
+  values.controls.push({
+    label: "",
+    name: "",
+    field: "",
+    className: ""
+  });
+};
+const send = async () => {
+  const response = await axios.post('http://172.17.20.174:3001/api/builder/createPage', values);
+  console.log(response);
+}
 </script>
 
 <style scoped>
-
 </style>
