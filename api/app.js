@@ -5,7 +5,7 @@ var cors = require('cors');
 const helmet = require("helmet");
 const dotenv = require("dotenv");
 const PageModel = require("./models/pages");
-const {ObjectId} = require("mongoose").Types;
+const { ObjectId } = require("mongoose").Types;
 
 app.use(helmet());
 app.use(express.json());
@@ -41,6 +41,34 @@ app.post('/api/builder/createPage', async (req, res) => {
     try {
         const status = await PageModel.create(req.body);
         return res.status(201).json({
+            status: true,
+            apiResult: status
+        });
+    } catch (err) {
+        return res.status(500).json({
+            status: false,
+            apiResult: err
+        });
+    }
+});
+
+app.post('/api/content/singleType/save', async (req, res) => {
+    let { pageId, contents } = req.body;
+
+    if (!pageId || !contents) {
+        return res.status(400).json({
+            status: false,
+            apiResult: "bad request"
+        });
+    }
+
+    try {
+        const status = await PageModel.findOneAndUpdate(
+            { "_id": pageId },
+            { "contents": contents },
+            { new: true }
+        );
+        return res.status(200).json({
             status: true,
             apiResult: status
         });

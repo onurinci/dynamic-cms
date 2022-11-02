@@ -7,7 +7,7 @@
 
 <script setup>
   import { useRoute } from 'vue-router';
-  import {onMounted, ref} from "vue";
+  import { onMounted, ref } from "vue";
   import axios from "axios";
   import Input from '@/components/Forms/Input.vue';
 
