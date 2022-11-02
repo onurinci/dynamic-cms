@@ -58,7 +58,7 @@
                 </ul>
               </li>
               <li>
-                <a href="javascript: void(0);" class="has-arrow">Horizontal</a>
+                <a href="javascript: void(0);" class="has-arrow">Liste Sayfaları</a>
                 <ul class="sub-menu" aria-expanded="true">
                   <li><a href="layouts-horizontal.html">Horizontal</a></li>
                   <li><a href="layouts-hori-topbar-dark.html">Topbar Dark</a></li>
