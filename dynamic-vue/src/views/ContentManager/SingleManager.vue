@@ -12,7 +12,7 @@
 </template>
 <script setup>
 import { useRoute } from 'vue-router';
-import {onMounted, reactive} from "vue";
+import { onMounted, reactive } from "vue";
 import axios from "axios";
 import Input from '@/components/Forms/Input.vue';
 const route = useRoute();

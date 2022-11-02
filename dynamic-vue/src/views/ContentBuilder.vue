@@ -15,7 +15,7 @@
     </div>
   </div>
 
-  <div class="row mt-2" v-for="item in rowCount">
+  <div class="row mt-2" :key="item.name" v-for="item in rowCount">
     <div class="col-md-4">
       <label>Başlığını Giriniz</label>
       <input type="text" class="form-control" v-on:keyup="values.controls[item-1].name = replaceChar($event.target.value)" v-model="values.controls[item-1].label">
