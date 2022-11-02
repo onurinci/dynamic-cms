@@ -20,6 +20,11 @@ const routes = [
                 path: '/contentmanager/collectionType/:id',
                 name: 'CollectionManager',
                 component: () => import('@/views/ContentManager/CollectionManager.vue')
+            },
+            {
+                path: '/media/library',
+                name: 'MediaLibrary',
+                component: () => import('@/views/MediaLibrary/MediaLibrary.vue')
             }
         ]
     }

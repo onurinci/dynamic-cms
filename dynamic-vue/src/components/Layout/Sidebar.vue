@@ -37,7 +37,14 @@
           <li>
             <router-link to="/">
               <i class="uil-home-alt"></i><span class="badge rounded-pill bg-primary float-end">01</span>
-              <span>Content Builder</span>
+              <span>İçerik Oluşturucu</span>
+            </router-link>
+          </li>
+
+          <li>
+            <router-link to="/media/library">
+              <i class="uil-file-plus"></i>
+              <span>Media Kütüphanesi</span>
             </router-link>
           </li>
 
