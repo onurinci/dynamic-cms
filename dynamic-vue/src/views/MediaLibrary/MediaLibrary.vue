@@ -27,7 +27,6 @@ import {onMounted, ref} from "vue";
   import axios from "axios";
 
   const files = ref([]);
-  const count = 10;
 
   const data = ref([]);
 
