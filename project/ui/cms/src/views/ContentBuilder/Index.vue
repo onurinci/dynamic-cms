@@ -44,12 +44,7 @@
     </div>
   </div>
 
-    <component :is="tabs[0]"></component>
 
-  {{ formValues }}
-
-  {{ data.selectedType }}
-  aaa {{ tabs[0] }} ggg
 
   <vue-final-modal v-model="show" classes="modal-container" content-class="modal-content">
     <button class="modal__close" @click="show = false">
@@ -59,7 +54,7 @@
     <hr>
     <div class="modal__content">
 
-
+      <component :is="selectedType"></component>
 
     </div>
   </vue-final-modal>
@@ -69,14 +64,10 @@
 <script setup>
   import {inject, ref, reactive} from "vue";
   import {replaceChar} from '@/utils/helper.js';
-  import InputText from '@/components/ContentBuilder/InputText.vue';
-
-  const tabs = [
-    InputText
-  ]
 
   // inject
   const $vfm = inject('$vfm');
+
   const show = ref(false);
   const selectedType = ref("InputText");
 
@@ -84,7 +75,7 @@
   const data = reactive({
     rowCount: 1,
     selectedType: "InputText",
-  })
+  });
 
   const formValues = reactive({
     pageType : "0",
@@ -112,11 +103,12 @@
     });
   };
 
-
   const modalAc = () => {
+
     show.value = true;
     selectedType.value = 'InputText'
-  }
+    console.log(show.value);
+  };
 
 </script>
 
