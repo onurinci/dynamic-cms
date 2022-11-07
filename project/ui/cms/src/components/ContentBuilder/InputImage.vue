@@ -9,8 +9,12 @@
       </div>
     </div>
     <div class="col-md-4">
-      <label> Maks. Uzunluk</label>
-      <input type="number" class="form-control" v-model="formFields.maxLength">
+      <div class="form-check mb-3">
+        <input class="form-check-input" type="checkbox" id="multiple" v-model="formFields.multiple">
+        <label class="form-check-label" for="multiple">
+          Birden Fazla Resim Kabul Edilsin mi ?
+        </label>
+      </div>
     </div>
   </div>
   <div class="row mt-2">
@@ -21,13 +25,13 @@
 </template>
 
 <script setup>
-  import {reactive} from "vue";
-  defineEmits(["options"]);
+import {reactive} from "vue";
+defineEmits(["options"]);
 
-  const formFields = reactive({
-    required: false,
-    maxLength: 255,
-  });
+const formFields = reactive({
+  required: false,
+  multiple: false,
+});
 </script>
 
 <style scoped>

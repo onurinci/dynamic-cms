@@ -1,10 +1,11 @@
 <template>
-  <div>
-    Dashboard
-  </div>
+
 </template>
 
-<script setup>
+<script>
+export default {
+  name: "CollectionManager"
+}
 </script>
 
 <style scoped>

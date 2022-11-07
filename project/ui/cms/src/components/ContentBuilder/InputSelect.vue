@@ -9,10 +9,11 @@
       </div>
     </div>
     <div class="col-md-4">
-      <label> Maks. Uzunluk</label>
-      <input type="number" class="form-control" v-model="formFields.maxLength">
+      <label> Seçenekler </label>
+      <textarea class="form-control" v-model="formFields.options"></textarea>
     </div>
   </div>
+
   <div class="row mt-2">
     <div class="col-md-12 text-end">
       <button class="btn btn-primary" @click="$emit('options',formFields)">Ayarları Kaydet</button>
@@ -26,7 +27,7 @@
 
   const formFields = reactive({
     required: false,
-    maxLength: 255,
+    options: ''
   });
 </script>
 

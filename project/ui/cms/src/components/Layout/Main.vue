@@ -8,7 +8,6 @@
           <router-view v-slot="{ Component, route }">
             <component :is="Component" :key="route.path" />
           </router-view>
-<!--          <router-view></router-view>-->
         </div>
       </div>
     </div>

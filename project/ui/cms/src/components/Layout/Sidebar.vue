@@ -40,15 +40,21 @@
               <li>
                 <a href="javascript: void(0);" class="has-arrow" data-key="t-level-1-2">Tekli Sayfalar</a>
                 <ul class="sub-menu" aria-expanded="true">
-                  <li><a href="javascript: void(0);" data-key="t-level-2-1">Level 2.1</a></li>
-                  <li><a href="javascript: void(0);" data-key="t-level-2-2">Level 2.2</a></li>
+                  <li v-for="page in singleTypePages">
+                    <router-link :to="`/contentmanager/${page?.pageType}/${page?._id}`">
+                      {{ page?.pageTitle }}
+                    </router-link>
+                  </li>
                 </ul>
               </li>
               <li>
                 <a href="javascript: void(0);" class="has-arrow" data-key="t-level-1-2">Liste Sayfaları</a>
                 <ul class="sub-menu" aria-expanded="true">
-                  <li><a href="javascript: void(0);" data-key="t-level-2-1">Level 2.1</a></li>
-                  <li><a href="javascript: void(0);" data-key="t-level-2-2">Level 2.2</a></li>
+                  <li v-for="page in collectionTypePages">
+                    <router-link :to="`/contentmanager/${page?.pageType}/${page?._id}`">
+                      {{ page?.pageTitle }}
+                    </router-link>
+                  </li>
                 </ul>
               </li>
             </ul>
@@ -114,6 +120,15 @@
             </ul>
           </li>
 
+          <li class="menu-title" data-key="t-menu">Ayarlar</li>
+
+          <li>
+            <router-link to="/settings/internationalization">
+              <i data-feather="globe"></i>
+              <span data-key="t-dashboard">Dil Desteği</span>
+            </router-link>
+          </li>
+
         </ul>
       </div>
       <!-- Sidebar -->
@@ -123,16 +138,23 @@
 </template>
 
 <script setup>
+  import axios from "axios";
+  import {computed, onMounted, ref} from "vue";
+  import {pageStore} from "@/store/page.js";
 
-  import {onMounted} from "vue";
+  const storePage = pageStore();
 
   onMounted(async () => {
-    console.log("log sidebar.vue");
-    document.onreadystatechange = () => {
-      if (document.readyState == "complete") {
-        console.log("log sidebar.vue");
-      }
-    }
+    await storePage.getSingleTypePages();
+    await storePage.getCollectionTypePages();
+  });
+
+  const singleTypePages = computed(() => {
+    return storePage._singleTypePages;
+  });
+
+  const collectionTypePages = computed(() => {
+    return storePage._collectionTypePages;
   });
 
 </script>

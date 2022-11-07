@@ -1,6 +1,6 @@
 <template>
   <div>
-    Dashboard
+    <input type="file" class="form-control">
   </div>
 </template>
 

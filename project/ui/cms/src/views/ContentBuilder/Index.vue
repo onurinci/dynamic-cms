@@ -8,8 +8,8 @@
       <label>Sayfa Tipi</label>
       <select class="form-select" v-model="formValues.pageType">
         <option value="0" selected disabled>Sayfa Tipi Seçin..</option>
-        <option value="1">Tekli Sayfa</option>
-        <option value="2">Liste Sayfası</option>
+        <option value="singleType">Tekli Sayfa</option>
+        <option value="collectionType">Liste Sayfası</option>
       </select>
     </div>
   </div>
@@ -25,12 +25,13 @@
     </div>
     <div class="col-md-4">
       <label>Alan Seçin</label>
-      <select class="form-select" v-model="formValues.controls[item-1].field" @change="modalAc">
+      <select class="form-select" v-model="formValues.controls[item-1].field" @change="openModal($event,item-1)">
         <option value="InputText">Yazı Alanı</option>
-        <option value="number">Sayı Alanı</option>
-        <option value="email">Mail Alanı</option>
+        <option value="InputSelect">Sayı Alanı</option>
+        <option value="InputText2">Mail Alanı</option>
         <option value="longtext">İçerik Alanı</option>
-        <option value="select">Seçim Alanı</option>
+        <option value="InputSelect">Seçim Alanı</option>
+        <option value="InputImage">Resim Alanı</option>
       </select>
     </div>
   </div>
@@ -40,11 +41,9 @@
       <button class="btn btn-primary" @click="addToValues">Alan Ekle</button>
     </div>
     <div class="col-md-6 text-end">
-      <button class="btn btn-success">Oluştur</button>
+      <button class="btn btn-success" @click="sendData">Oluştur</button>
     </div>
   </div>
-
-
 
   <vue-final-modal v-model="show" classes="modal-container" content-class="modal-content">
     <button class="modal__close" @click="show = false">
@@ -53,9 +52,9 @@
     <span class="modal__title">{{ formValues.pageTitle }}</span>
     <hr>
     <div class="modal__content">
-
-      <component :is="selectedType"></component>
-
+      <keep-alive>
+        <component @options="getOptions" :is="data.selectedType"></component>
+      </keep-alive>
     </div>
   </vue-final-modal>
 
@@ -64,17 +63,22 @@
 <script setup>
   import {inject, ref, reactive} from "vue";
   import {replaceChar} from '@/utils/helper.js';
+  import axios from 'axios';
 
   // inject
   const $vfm = inject('$vfm');
 
   const show = ref(false);
-  const selectedType = ref("InputText");
+
+  const getOptions = (options) => {
+    formValues.controls[data.selectedIndex].options = options;
+  }
 
   // data
   const data = reactive({
     rowCount: 1,
     selectedType: "InputText",
+    selectedIndex: -1,
   });
 
   const formValues = reactive({
@@ -86,7 +90,7 @@
         name: "",
         field: "",
         className: "",
-        options: []
+        options: {}
       }
     ]
   });
@@ -99,59 +103,61 @@
       name: "",
       field: "",
       className: "",
-      options: []
+      options: {}
     });
   };
 
-  const modalAc = () => {
-
+  const openModal = (event,index) => {
     show.value = true;
-    selectedType.value = 'InputText'
-    console.log(show.value);
+    data.selectedType = event.target.value;
+    data.selectedIndex = index;
   };
+
+  const sendData = async () => {
+    const data = await axios.post('http://172.17.20.174:3001/api/admin/page',formValues);
+    console.log(data);
+  }
+
+
 
 </script>
 
 <style scoped>
-:deep(.vfm--fixed) {
-  z-index: 20000;
-}
-:deep(.modal-container){
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  max-width: 70%;
-  margin:0 auto;
-}
-
-:deep(.modal-content) {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  max-height: 90%;
-  margin: 0 1rem;
-  padding: 1rem;
-  border: 1px solid #e2e8f0;
-  border-radius: 0.25rem;
-  background: #fff;
-}
-
-.modal__title {
-  margin: 0 2rem 0 0;
-  font-size: 1.5rem;
-  font-weight: 700;
-}
-
-.modal__content {
-  flex-grow: 1;
-  /*overflow-y: auto;
-  overflow-x: hidden;*/
-  padding: 0 10px 0 10px;
-}
-
-.modal__close {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-}
+  :deep(.vfm--fixed) {
+    z-index: 20000;
+  }
+  :deep(.modal-container){
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 70%;
+    margin:0 auto;
+  }
+  :deep(.modal-content) {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    max-height: 90%;
+    margin: 0 1rem;
+    padding: 1rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.25rem;
+    background: #fff;
+  }
+  .modal__title {
+    margin: 0 2rem 0 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+  .modal__content {
+    flex-grow: 1;
+    /*overflow-y: auto;
+    overflow-x: hidden;*/
+    padding: 0 10px 0 10px;
+  }
+  .modal__close {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+  }
 </style>

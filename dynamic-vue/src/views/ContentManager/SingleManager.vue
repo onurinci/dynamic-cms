@@ -38,7 +38,7 @@
     const params = {
       id: data.pageId
     }
-    data.pageData = (await axios.get('http://172.17.20.174:3001/api/builder/getPageById', {params})).data;
+    data.pageData = (await axios.get('http://172.17.20.174:3001/api/admin/builder/getPageById', {params})).data;
     data.pageData.controls.forEach(f => {
       data.formValues.push({
         'name' : f.name,
@@ -50,10 +50,9 @@
 
   const save = async () => {
     const params = {
-      pageId : data.pageId,
       contents : [...data.formValues]
     }
-    const apiData = await axios.post('http://172.17.20.174:3001/api/content/singleType/save', params)
+    const apiData = (await axios.post(`http://172.17.20.174:3001/api/admin/page/${data.pageId}/content/save`, params)).data
     console.log(apiData);
   }
 

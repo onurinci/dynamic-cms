@@ -17,6 +17,16 @@ const routes = [
                 component: () => import('@/views/ContentBuilder/Index.vue')
             },
             {
+                path: '/contentmanager/singleType/:id',
+                name: 'SingleManager',
+                component: () => import('@/views/ContentManager/SingleManager.vue')
+            },
+            {
+                path: '/contentmanager/collectionType/:id',
+                name: 'CollectionManager',
+                component: () => import('@/views/ContentManager/CollectionManager.vue')
+            },
+            {
                 path: '/mediaLibrary',
                 name: 'MediaLibrary',
                 component: () => import('@/views/MediaLibrary/Index.vue')
@@ -30,6 +40,11 @@ const routes = [
                 path: '/pages/type/collection',
                 name: 'CollectionType',
                 component: () => import('@/views/Pages/CollectionType.vue')
+            },
+            {
+                path: '/settings/internationalization',
+                name: 'Internationalization',
+                component: () => import('@/views/Settings/Internationalization.vue')
             }
         ]
     }

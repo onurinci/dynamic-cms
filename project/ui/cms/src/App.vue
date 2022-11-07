@@ -22,10 +22,10 @@
 
   onMounted(async () => {
     setTimeout( async() => {
-      await loadScriptNav(`src/assets/js/jquery.min.js`);
+      await loadScriptNav(`/src/assets/js/jquery.min.js`);
       scripts.forEach(e => {
         (async () => {
-          await loadScriptNav(`src/assets/js/${e}`)
+          await loadScriptNav(`/src/assets/js/${e}`)
         })()
       });
     }, 2000);
