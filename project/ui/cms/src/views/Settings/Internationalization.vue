@@ -15,9 +15,9 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="language in languages">
-              <td>{{ language?.name }}</td>
-              <td>{{ language?.locale }}</td>
+            <tr v-for="locale in locales">
+              <td>{{ locale?.name }}</td>
+              <td>{{ locale?.locale }}</td>
             </tr>
           </tbody>
         </table>
@@ -26,8 +26,10 @@
   </div>
 
   <vue-final-modal v-model="show" classes="modal-container" content-class="modal-content">
-    <button class="modal__close" @click="show = false">
-      <i class="material-icons has-sub-menu">close</i>
+    <button class="modal__close" @click="show = false" style="border: none !important;">
+      <button class="btn btn-soft-dark waves-effect waves-light">
+        <i data-feather="x-square"></i>
+      </button>
     </button>
     <span class="modal__title">Yeni Dil Ekle</span>
     <hr>
@@ -53,11 +55,15 @@
 </template>
 
 <script setup>
-import {inject, ref, reactive, onMounted} from "vue";
-  import axios from 'axios';
+  import {inject, ref, reactive, onMounted, computed} from "vue";
+  import {internationalizationStore} from "@/store/internationalization.js";
+
+  const storeInternationalization = internationalizationStore();
 
   onMounted(async () => {
-    await getLanguage()
+    // await getLanguage()
+    const langs = storeInternationalization._locales;
+    console.log("langs", langs);
   })
 
   // inject
@@ -65,7 +71,6 @@ import {inject, ref, reactive, onMounted} from "vue";
 
   // variables
   const show = ref(false);
-  const languages = ref([]);
   const languageFields = reactive({
     name: '',
     locale: ''
@@ -78,14 +83,17 @@ import {inject, ref, reactive, onMounted} from "vue";
       return;
     }
 
-    const data = (await axios.post('http://172.17.20.174:3001/api/admin/internationalization', languageFields)).data
-    console.log(data);
+    try {
+      await storeInternationalization.saveLocale(languageFields);
+      alert("Kaydedildi");
+    } catch (e) {
+      alert("Kaydedilirken hata oluştu");
+    }
   }
 
-  const getLanguage = async () => {
-    languages.value = (await axios.get('http://172.17.20.174:3001/api/admin/internationalization')).data
-    console.log(languages.value)
-  }
+  const locales = computed(() => {
+    return storeInternationalization._locales;
+  });
 
 </script>
 

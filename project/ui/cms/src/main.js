@@ -19,6 +19,10 @@ app.component('InputImage', defineAsyncComponent({
     loader: () => import('./components/ContentBuilder/InputImage.vue')
 }));
 
+app.component('InputVideo', defineAsyncComponent({
+    loader: () => import('./components/ContentBuilder/InputVideo.vue')
+}));
+
 app.use(router);
 app.use(vfmPlugin);
 app.use(createPinia());

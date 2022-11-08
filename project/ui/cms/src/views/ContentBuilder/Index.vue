@@ -27,11 +27,9 @@
       <label>Alan Seçin</label>
       <select class="form-select" v-model="formValues.controls[item-1].field" @change="openModal($event,item-1)">
         <option value="InputText">Yazı Alanı</option>
-        <option value="InputSelect">Sayı Alanı</option>
-        <option value="InputText2">Mail Alanı</option>
-        <option value="longtext">İçerik Alanı</option>
         <option value="InputSelect">Seçim Alanı</option>
         <option value="InputImage">Resim Alanı</option>
+        <option value="InputVideo">Video Alanı</option>
       </select>
     </div>
   </div>

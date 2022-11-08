@@ -17,14 +17,19 @@ const routes = [
                 component: () => import('@/views/ContentBuilder/Index.vue')
             },
             {
-                path: '/contentmanager/singleType/:id',
+                path: '/contentmanager/singleType/:id/:locale',
                 name: 'SingleManager',
                 component: () => import('@/views/ContentManager/SingleManager.vue')
             },
             {
-                path: '/contentmanager/collectionType/:id',
+                path: '/contentmanager/collectionType/:id/:locale',
                 name: 'CollectionManager',
                 component: () => import('@/views/ContentManager/CollectionManager.vue')
+            },
+            {
+                path: '/contentmanager/collectionType/:id/:locale/new',
+                name: 'NewCollection',
+                component: () => import('@/views/ContentManager/Collection/New.vue')
             },
             {
                 path: '/mediaLibrary',

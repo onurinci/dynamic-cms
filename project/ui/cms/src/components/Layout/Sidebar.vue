@@ -41,7 +41,7 @@
                 <a href="javascript: void(0);" class="has-arrow" data-key="t-level-1-2">Tekli Sayfalar</a>
                 <ul class="sub-menu" aria-expanded="true">
                   <li v-for="page in singleTypePages">
-                    <router-link :to="`/contentmanager/${page?.pageType}/${page?._id}`">
+                    <router-link :to="`/contentmanager/${page?.pageType}/${page?._id}/${defaultLocale}`">
                       {{ page?.pageTitle }}
                     </router-link>
                   </li>
@@ -51,7 +51,7 @@
                 <a href="javascript: void(0);" class="has-arrow" data-key="t-level-1-2">Liste Sayfaları</a>
                 <ul class="sub-menu" aria-expanded="true">
                   <li v-for="page in collectionTypePages">
-                    <router-link :to="`/contentmanager/${page?.pageType}/${page?._id}`">
+                    <router-link :to="`/contentmanager/${page?.pageType}/${page?._id}/${defaultLocale}`">
                       {{ page?.pageTitle }}
                     </router-link>
                   </li>
@@ -141,12 +141,18 @@
   import axios from "axios";
   import {computed, onMounted, ref} from "vue";
   import {pageStore} from "@/store/page.js";
+  import {internationalizationStore} from "@/store/internationalization.js";
 
   const storePage = pageStore();
+  const storeInternationalization = internationalizationStore();
+
+  const defaultLocale = ref("");
 
   onMounted(async () => {
     await storePage.getSingleTypePages();
     await storePage.getCollectionTypePages();
+    await storeInternationalization.getLocales();
+    getDefaultLocale()
   });
 
   const singleTypePages = computed(() => {
@@ -156,6 +162,14 @@
   const collectionTypePages = computed(() => {
     return storePage._collectionTypePages;
   });
+
+  const locales = computed(() => {
+    return storeInternationalization._locales;
+  });
+
+  const getDefaultLocale = () => {
+      defaultLocale.value = locales.value.find(f => f.isDefault == "true").locale
+  };
 
 </script>
 
