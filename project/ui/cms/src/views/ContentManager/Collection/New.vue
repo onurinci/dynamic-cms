@@ -1,5 +1,14 @@
 <template>
   <div class="row">
+    <div class="col-md-3 offset-9">
+      <label>Dil Seçin</label>
+      <select class="form-control" @change="router.push({ path: `/contentmanager/collectionType/${data.pageId}/${$event.target.value}/new` })">
+        <option value="tr" >Türkçe</option>
+        <option value="en" >İngilizce</option>
+      </select>
+    </div>
+  </div>
+  <div class="row">
     <div v-for="(input,index) in data.pageData.controls" :key="index" :class="input?.className" class="mb-3">
       <div v-if="input?.field === 'InputText'">
         <Input
@@ -31,12 +40,11 @@
     </div>
   </div>
 
-  {{ data.formValues }}
 </template>
 
 <script setup>
-import {computed, onMounted, reactive, ref} from "vue";
-  import {useRoute} from "vue-router";
+  import {computed, onMounted, reactive, ref} from "vue";
+  import {useRoute, useRouter} from "vue-router";
   import axios from "axios";
   import Input from "@/components/ContentManager/Forms/Input.vue";
   import Select from "@/components/ContentManager/Forms/Select.vue";
@@ -45,7 +53,9 @@ import {computed, onMounted, reactive, ref} from "vue";
 
   // İnitialize
   const route = useRoute();
+  const router = useRouter();
   const storeMedia = mediaStore();
+
 
   // Variables
   const data = reactive({
@@ -63,7 +73,7 @@ import {computed, onMounted, reactive, ref} from "vue";
   });
 
   const getDetailsByPageId = async () => {
-    data.pageData = (await axios.get(`http://172.17.20.174:3001/api/admin/page/${data.pageId}/${data.activeLocale}`)).data;
+    data.pageData = (await axios.get(`http://172.17.30.86:3001/api/admin/collection/${data.pageId}/${data.activeLocale}`)).data;
 
     data.pageData.controls.forEach(f => {
       if(f.field === "InputImage"){
@@ -102,10 +112,9 @@ import {computed, onMounted, reactive, ref} from "vue";
   const save = async () => {
     const params = {
       name: data.activeLocale,
-      item: data.formValues,
+      data: data.formValues,
     };
-    const apiData = (await axios.post(`http://172.17.20.174:3001/api/admin/page/${data.pageId}/content/addItem`, params)).data;
-    console.log(apiData);
+    const apiData = (await axios.post(`http://172.17.30.86:3001/api/admin/collection/${data.pageId}/content/addItem`, params)).data;
   }
 
 </script>

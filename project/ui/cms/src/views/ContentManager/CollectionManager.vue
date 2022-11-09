@@ -18,8 +18,8 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td v-for="data in data.pageData.contents"></td>
+            <tr v-for="content in data.pageData.contents">
+              <td v-for="data in content?.data"> {{ data?.value }} </td>
             </tr>
           </tbody>
         </table>
@@ -51,7 +51,7 @@
   });
 
   const getDetailsByPageId = async () => {
-    data.pageData = (await axios.get(`http://172.17.20.174:3001/api/admin/page/${data.pageId}/${data.activeLocale}`)).data;
+    data.pageData = (await axios.get(`http://172.17.30.86:3001/api/admin/collection/${data.pageId}/${data.activeLocale}`)).data;
     console.log(data.pageData);
   }
 

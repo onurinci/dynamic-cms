@@ -16,6 +16,13 @@
           :value="data.formValues[index].value"
           v-model="data.formValues[index].value"/>
       </div>
+      <div v-if="input?.field === 'InputCollection'">
+        <Collection
+            :label="input?.label"
+            :name="input?.name"
+            :value="data.formValues[index].value"
+            v-model="data.formValues[index].value" />
+      </div>
       <div v-if="input?.field === 'InputImage' "> <!-- InputImage -->
         <div class="fileManager">
           <div class="fileCon" v-for="file in files">
@@ -41,7 +48,8 @@
   import axios from "axios";
   import Input from '@/components/ContentManager/Forms/Input.vue';
   import Select from '@/components/ContentManager/Forms/Select.vue';
-  import File from '@/components/ContentManager/Forms/File.vue'
+  import File from '@/components/ContentManager/Forms/File.vue';
+  import Collection from '@/components/ContentManager/Forms/Collection.vue'
   import {mediaStore} from "@/store/media.js";
 
   const route = useRoute();
@@ -62,7 +70,7 @@
   });
 
   const getDetailsByPageId = async () => {
-    data.pageData = (await axios.get(`http://172.17.20.174:3001/api/admin/page/${data.pageId}/${data.activeLocale}`)).data;
+    data.pageData = (await axios.get(`http://172.17.30.86:3001/api/admin/page/${data.pageId}/${data.activeLocale}`)).data;
     data.pageData.controls.forEach(f => {
       if(f.field === "InputImage"){
         data.formValues.push({
@@ -71,6 +79,12 @@
         });
       }
       if (f.field === "InputText") {
+        data.formValues.push({
+          'name' : f.name,
+          'value': data.pageData?.contents?.find(x => x.name == f.name )?.value || "",
+        });
+      }
+      if(f.field === 'InputCollection') {
         data.formValues.push({
           'name' : f.name,
           'value': data.pageData?.contents?.find(x => x.name == f.name )?.value || "",
@@ -86,7 +100,7 @@
       name: data.activeLocale,
       contents: [...data.formValues]
     };
-    const apiData = await axios.post(`http://172.17.20.174:3001/api/admin/page/${data.pageId}/content/save`, params);
+    const apiData = await axios.post(`http://172.17.30.86:3001/api/admin/page/${data.pageId}/content/save`, params);
     console.log(apiData);
   }
 

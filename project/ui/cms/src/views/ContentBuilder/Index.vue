@@ -30,6 +30,7 @@
         <option value="InputSelect">Seçim Alanı</option>
         <option value="InputImage">Resim Alanı</option>
         <option value="InputVideo">Video Alanı</option>
+        <option value="InputCollection">Liste Alanı</option>
       </select>
     </div>
   </div>
@@ -112,12 +113,16 @@
   };
 
   const sendData = async () => {
-    const data = await axios.post('http://172.17.20.174:3001/api/admin/page',formValues);
-    console.log(data);
+    let apiData = [];
+    if(formValues.pageType == 'singleType'){
+      apiData = await axios.post('http://172.17.30.86:3001/api/admin/page',formValues);
+    } else if(formValues.pageType == 'collectionType') {
+      apiData = await axios.post('http://172.17.30.86:3001/api/admin/collection',formValues);
+    }
+
+    console.log(apiData);
   }
-
-
-
+  
 </script>
 
 <style scoped>
