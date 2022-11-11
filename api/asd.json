@@ -1,0 +1,21 @@
+{
+    "name": "tr",
+    "item": [
+        {
+            "name": "baslik",
+            "value": "fsdfds"
+        },
+        {
+            "name": "resim",
+            "value": [
+                "2c7363bd-cf29-4b6b-8376-ea10405b3056.png",
+                "1fd8143a-ada8-44a3-add2-6fb3aed756d9.png",
+                "705b3d11-844e-4ab3-937d-c7dce3f05128.png"
+            ]
+        },
+        {
+            "name": "tarih",
+            "value": ""
+        }
+    ]
+}

@@ -5,10 +5,6 @@ var cors = require('cors');
 const path = require('path');
 const helmet = require("helmet");
 const dotenv = require("dotenv");
-const PageModel = require("./models/page");
-const MediaModel = require("./models/media");
-const { ObjectId } = require("mongoose").Types;
-const { generateFilename } = require("./core/helpers/utils");
 
 app.use(helmet());
 app.use(express.json());
@@ -16,15 +12,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors({ origin: '*' }));
 dotenv.config();
 app.use('/uploads', express.static(path.join(__dirname, process.env.UPLOAD_FOLDER_NAME)));
-
-const multer = require('multer');
-var multerUploader = multer({
-    storage: multer.diskStorage({
-        destination: "uploads/media/",
-        filename: (req, file, callback) => callback(null, generateFilename(file.originalname))
-    })
-});
-
 
 const db = require("./config/database");
 db.connect();
@@ -35,6 +22,29 @@ app.get('/healtCheck', async (req, res) => {
     });
 });
 
+// [page] module router
+const { PageRouter, PageAdminRouter } = require('./modules/page/routers');
+app.use("/api/page", PageRouter);
+app.use("/api/admin/page", PageAdminRouter);
+
+// [collection] module router
+const { CollectionRouter, CollectionAdminRouter } = require('./modules/collection/routers');
+app.use("/api/collection", CollectionRouter);
+app.use("/api/admin/collection", CollectionAdminRouter);
+
+// [media] module router
+const { MediaRouter, MediaAdminRouter } = require('./modules/media/routers');
+app.use("/api/media", MediaRouter);
+app.use("/api/admin/media", MediaAdminRouter);
+
+// [internationalization] module router
+const { InternationalizationRouter, InternationalizationAdminRouter } = require('./modules/internationalization/routers');
+app.use("/api/internationalization", InternationalizationRouter);
+app.use("/api/admin/internationalization", InternationalizationAdminRouter);
+
+// api/admin/page/6368c3fa9ebafce0c2f7e13e/content/save
+
+/*
 app.get('/api/builder/getPages', async (req, res) => {
     const pages = await PageModel.find({}).lean();
     return res.status(200).json(pages);
@@ -135,7 +145,7 @@ app.get('/api/media', async (req, res) => {
             "err": err
         });
     }
-});
+}); */
 
 http.listen(process.env.APP_PORT, process.env.HOST, () => {
     console.log('🚀 server running ...');
