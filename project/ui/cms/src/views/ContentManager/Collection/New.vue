@@ -73,7 +73,7 @@
   });
 
   const getDetailsByPageId = async () => {
-    data.pageData = (await axios.get(`http://172.17.30.86:3001/api/admin/collection/${data.pageId}/${data.activeLocale}`)).data;
+    data.pageData = (await axios.get(`http://172.17.20.174:3001/api/admin/collection/${data.pageId}/${data.activeLocale}`)).data;
 
     data.pageData.controls.forEach(f => {
       if(f.field === "InputImage"){
@@ -114,7 +114,7 @@
       name: data.activeLocale,
       data: data.formValues,
     };
-    const apiData = (await axios.post(`http://172.17.30.86:3001/api/admin/collection/${data.pageId}/content/addItem`, params)).data;
+    const apiData = (await axios.post(`http://172.17.20.174:3001/api/admin/collection/${data.pageId}/content/addItem`, params)).data;
   }
 
 </script>

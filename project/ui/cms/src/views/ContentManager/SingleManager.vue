@@ -24,6 +24,7 @@
             v-model="data.formValues[index].value" />
       </div>
       <div v-if="input?.field === 'InputImage' "> <!-- InputImage -->
+        <label> {{ input?.label }} </label>
         <div class="fileManager">
           <div class="fileCon" v-for="file in files">
             <div class="chk"><input type="checkbox" @change="getSelectedFiles($event, file?.filename, index)" /></div>
@@ -55,6 +56,7 @@
   const route = useRoute();
   const storeMedia = mediaStore();
 
+
   const data = reactive({
     pageId: "",
     activeLocale: "",
@@ -70,7 +72,7 @@
   });
 
   const getDetailsByPageId = async () => {
-    data.pageData = (await axios.get(`http://172.17.30.86:3001/api/admin/page/${data.pageId}/${data.activeLocale}`)).data;
+    data.pageData = (await axios.get(`http://172.17.20.174:3001/api/admin/page/${data.pageId}/${data.activeLocale}`)).data;
     data.pageData.controls.forEach(f => {
       if(f.field === "InputImage"){
         data.formValues.push({
@@ -100,7 +102,7 @@
       name: data.activeLocale,
       contents: [...data.formValues]
     };
-    const apiData = await axios.post(`http://172.17.30.86:3001/api/admin/page/${data.pageId}/content/save`, params);
+    const apiData = await axios.post(`http://172.17.20.174:3001/api/admin/page/${data.pageId}/content/save`, params);
     console.log(apiData);
   }
 

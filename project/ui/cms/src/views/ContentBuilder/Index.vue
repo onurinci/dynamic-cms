@@ -57,6 +57,8 @@
     </div>
   </vue-final-modal>
 
+
+
 </template>
 
 <script setup>
@@ -115,14 +117,14 @@
   const sendData = async () => {
     let apiData = [];
     if(formValues.pageType == 'singleType'){
-      apiData = await axios.post('http://172.17.30.86:3001/api/admin/page',formValues);
+      apiData = await axios.post('http://172.17.20.174:3001/api/admin/page',formValues);
     } else if(formValues.pageType == 'collectionType') {
-      apiData = await axios.post('http://172.17.30.86:3001/api/admin/collection',formValues);
+      apiData = await axios.post('http://172.17.20.174:3001/api/admin/collection',formValues);
     }
 
     console.log(apiData);
   }
-  
+
 </script>
 
 <style scoped>

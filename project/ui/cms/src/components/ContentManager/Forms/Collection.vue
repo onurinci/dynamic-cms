@@ -26,6 +26,6 @@
 
   const collections = computed(() => {
     return storePage._collectionTypePages;
-  })
+  });
 
 </script>

@@ -10,10 +10,10 @@ export const internationalizationStore = defineStore('internationalization', {
     },
     actions: {
         async getLocales() {
-            this.locales = (await axios.get('http://172.17.30.86:3001/api/admin/internationalization')).data;
+            this.locales = (await axios.get('http://172.17.20.174:3001/api/admin/internationalization')).data;
         },
         async saveLocale(data){
-            return (await axios.post('http://172.17.30.86:3001/api/admin/internationalization', data)).data;
+            return (await axios.post('http://172.17.20.174:3001/api/admin/internationalization', data)).data;
         }
     }
 })

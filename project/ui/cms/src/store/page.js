@@ -12,10 +12,10 @@ export const pageStore = defineStore('page', {
     },
     actions: {
         async getSingleTypePages(){
-            this.singleTypePages = (await axios.get('http://172.17.30.86:3001/api/admin/page/all', { params: {pageType : "singleType"} }))?.data;
+            this.singleTypePages = (await axios.get('http://172.17.20.174:3001/api/admin/page/all', { params: {pageType : "singleType"} }))?.data;
         },
         async getCollectionTypePages(){
-            this.collectionTypePages = (await axios.get('http://172.17.30.86:3001/api/admin/collection/all', { params: {pageType : "collectionType"} }))?.data;
+            this.collectionTypePages = (await axios.get('http://172.17.20.174:3001/api/admin/collection/all', { params: {pageType : "collectionType"} }))?.data;
         }
     }
 })
