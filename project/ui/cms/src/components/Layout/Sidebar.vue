@@ -168,7 +168,7 @@
   });
 
   const getDefaultLocale = () => {
-      defaultLocale.value = locales.value.find(f => f.isDefault == "true").locale
+    defaultLocale.value = locales.value.find(f => f.isDefault === true)?.locale
   };
 
 </script>

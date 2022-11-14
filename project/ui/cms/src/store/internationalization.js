@@ -14,6 +14,9 @@ export const internationalizationStore = defineStore('internationalization', {
         },
         async saveLocale(data){
             return (await axios.post('http://172.17.20.174:3001/api/admin/internationalization', data)).data;
+        },
+        async changeDefaultLang(data){
+            return (await axios.post('http://172.17.20.174:3001/api/admin/internationalization/changeDefaultLang', data)).data;
         }
     }
 })

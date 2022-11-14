@@ -19,7 +19,7 @@ class InternationalizationAdminService {
     // get all
     async getAll() {
         return await Internationalization.find()
-        .sort({ _id: -1 })
+        .sort({ isDefault: -1 })
         .lean();
     }
 
@@ -34,6 +34,14 @@ class InternationalizationAdminService {
             { "_id": dto?._id },
             { $set: dto },
             { new: true }
+        );
+    }
+
+    // update all
+    async updateAll(args){
+        return await Internationalization.updateMany(
+            {},
+            { $set : args }
         );
     }
 

@@ -9,7 +9,7 @@
 </template>
 
 <script setup>
-import {computed, onMounted, reactive} from "vue";
+  import {computed, onMounted, reactive} from "vue";
   import {mediaStore} from "@/store/media.js";
   import FileUpload from '@/components/MediaLibrary/FileUpload.vue';
   import Files from '@/components/MediaLibrary/Files.vue';
@@ -36,6 +36,7 @@ import {computed, onMounted, reactive} from "vue";
     await storeMedia.deleteFiles(data.deleteImages);
     await storeMedia.getFiles();
   }
+
 </script>
 
 <style scoped>

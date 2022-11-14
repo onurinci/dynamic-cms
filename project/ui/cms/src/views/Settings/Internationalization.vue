@@ -12,12 +12,21 @@
             <tr>
               <th>Açıklama</th>
               <th>Kısaltma</th>
+              <th>Varsayılan</th>
+              <td></td>
             </tr>
           </thead>
           <tbody>
             <tr v-for="locale in locales">
               <td>{{ locale?.name }}</td>
               <td>{{ locale?.locale }}</td>
+              <td>
+                <span v-if="locale?.isDefault"><i data-feather="check"></i></span>
+                <span v-if="!locale?.isDefault"><i data-feather="x"></i></span>
+              </td>
+              <td>
+                <button v-if="!locale?.isDefault" class="btn btn-sm btn-warning" @click="setAsDefault(locale?._id)">Varsayılan yap</button>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -35,13 +44,19 @@
     <hr>
     <div class="modal__content">
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-5">
           <label>Dil Açıklaması</label>
           <input type="text" class="form-control" placeholder="Türkçe..." v-model="languageFields.name">
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
           <label>Dil Kısaltması</label>
           <input type="text" class="form-control" placeholder="tr..." v-model="languageFields.locale">
+        </div>
+        <div class="col-md-3 mt-4">
+          <div class="form-check form-switch form-switch-lg">
+            <input type="checkbox" class="form-check-input" id="isDefaultCheck" v-model="languageFields.isDefault">
+            <label class="form-check-label" for="isDefaultCheck">Varsayılan olarak ayarla</label>
+          </div>
         </div>
       </div>
 
@@ -60,12 +75,6 @@
 
   const storeInternationalization = internationalizationStore();
 
-  onMounted(async () => {
-    // await getLanguage()
-    const langs = storeInternationalization._locales;
-    console.log("langs", langs);
-  })
-
   // inject
   const $vfm = inject('$vfm');
 
@@ -73,7 +82,8 @@
   const show = ref(false);
   const languageFields = reactive({
     name: '',
-    locale: ''
+    locale: '',
+    isDefault: false,
   });
 
   //functions
@@ -85,6 +95,7 @@
 
     try {
       await storeInternationalization.saveLocale(languageFields);
+      await storeInternationalization.getLocales();
       alert("Kaydedildi");
     } catch (e) {
       alert("Kaydedilirken hata oluştu");
@@ -94,6 +105,16 @@
   const locales = computed(() => {
     return storeInternationalization._locales;
   });
+
+  const setAsDefault = async (id) => {
+    try {
+      await storeInternationalization.changeDefaultLang({ id });
+      await storeInternationalization.getLocales();
+      alert("Varsayılan dil değiştirildi");
+    } catch (e) {
+      alert("Bilinmeyen hata oluştu");
+    }
+  }
 
 </script>
 
