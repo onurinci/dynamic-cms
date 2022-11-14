@@ -29,7 +29,32 @@ const getAll = async (req, res, next) => {
     return res.status(200).json(data);
 };
 
+// get by id
+const getById = async (req, res, next) => {
+    const data = await service.getById(req?.params);
+}
+
+const deleteMany = async (req, res, next) => {
+    console.log(req.body);
+    let arr = req.body;
+    if (!arr) {
+        return res.status(400).json();
+    }
+
+    for (let i = 0; i < arr.length; i++) {
+        console.log(arr[i]);
+        const media = await service.getByFilename(arr[i]);
+        console.log(media);
+        const data = await service.delete(media?._id);
+    }
+
+    // const data = await service.deleteMany(arr);
+    return res.status(200).json({ status : "ok" });
+}
+
 module.exports = {
     create,
-    getAll
+    getAll,
+    getById,
+    deleteMany
 };

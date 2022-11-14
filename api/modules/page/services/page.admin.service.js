@@ -26,22 +26,12 @@ class PageAdminService {
 
     // get by id
     async getById(params) {
-        // return await Page.findById(params.id)
-        /*
         return await Page
-        .findOne({ _id: ObjectId(params.id) }, { _id: 1, locales: 1 })
-        .lean()
-        // .populate("locales.contents.components.data")
-        */
-
-        return await Page
-        .findOne(
-            { _id: ObjectId(params.id) },
-            { _id: 1, locales: 1 })
-
-            .populate('locales.contents.components.data', { "locales": 1 }, { "locales.name": { $regex: "fr" } })
-        .lean()
-
+            .findOne(
+                { _id: ObjectId(params.id) },
+                { _id: 1, locales: 1, pageTitle: 1, controls: 1 })
+            .populate('locales.contents.components.data', { "locales": 1 }, { "locales.name": { $regex: "en" } })
+            .lean();
     }
 
     // get by id
@@ -51,23 +41,23 @@ class PageAdminService {
         return await Page.findOne({ "_id": id })
     }
 
+    // delete builder control
+    async deleteBuilderControl(dto) {
+        let { pageId, controlId } = dto;
+        return await Page.updateOne(
+            { '_id': pageId },
+            { $pull: { 'controls': { _id: controlId } } });
+    }
+
     // add item collection
     async addItem(id, dto) {
 
-        console.log("");
-        console.log("");
-        console.log(dto.contents);
-        console.log("");
-        console.log("");
-
-        let data = await Page.findOne({ "_id": id });
+        // let data = await Page.findOne({ "_id": id });
         let localeControl = await Page.findOne({ "_id": id, "locales.name": dto?.name });
-
-        // console.log(localeControl);
         if (localeControl) {
             return await Page.findOneAndUpdate(
                 { "_id": id, "locales.name": dto?.name },
-                { $push: { "locales.$[el].contents" : {...dto.contents} } },
+                { $push: { "locales.$[el].contents": { ...dto.contents } } },
                 {
                     arrayFilters: [{ "el.name": dto?.name }],
                     new: true
@@ -82,59 +72,17 @@ class PageAdminService {
                 upsert: true,
                 new: true
             });
+    }
 
-        // let locales = data?.locales;
-        // let single = locales.find(w => w.name == dto?.name);
-// 
-        // if (!single) {
-        //     locales.push(dto);
-        //     console.log("locales", locales);
-        //     return await Page.findOneAndUpdate(
-        //         { "_id": id },
-        //         { $set: { "locales": locales } },
-        //         {
-        //             upsert: true,
-        //             new: true
-        //         });
-        // }
-// 
-        // let index = locales.indexOf(single);
-        // single.contents = dto.contents;
-        
-        
-        // return await Page.findOneAndUpdate(
-        //     { _id: id },
-        //     { $push: { "locales.$[el].contents" : dto.contents } },
-        //     {
-        //         arrayFilters: [{ "el.name": dto?.name }],
-        //         upsert: true,
-        //         new: true
-        //     }
-        // );
-
-        /* let data = await Page.findOne({ "id": id });
-        let control = data?.locales?.find(w => w.name == dto?.name);
-        if (!control) {
-            return await Page.findOneAndUpdate(
-                { "_id": id },
-                { $push: { "locales": dto } },
-                {
-                    upsert: true
-                });
-        }
-
-        let locales = data?.locales;
-        let single = locales.find(w => w.name == dto?.name);
-        let index = locales.indexOf(single);
-
-        locales[index].contents = dto.contents;
+    // create control
+    async createControl(id, dto) {
         return await Page.findOneAndUpdate(
             { "_id": id },
-            { $set: { "contents": locales[index].contents } },
+            { $push: { "controls": dto } },
             {
+                upsert: true,
                 new: true
-            }
-        ); */
+            });
     }
 
     // save page content

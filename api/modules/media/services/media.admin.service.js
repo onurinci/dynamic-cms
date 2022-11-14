@@ -28,6 +28,11 @@ class MediaAdminService {
         return await Media.findById(id)
     }
 
+    // get by filename
+    async getByFilename(filename) {
+        return await Media.findOne(({ "filename" : filename }));
+    }
+
     // update one
     async findOneAndUpdate(dto) {
         return await Media.findOneAndUpdate(

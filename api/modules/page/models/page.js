@@ -4,7 +4,15 @@ const mongoose = require('mongoose');
 let schema = mongoose.Schema({
     pageTitle: String,
     pageType: String,
-    controls: [],
+    controls: [
+        {
+            label: String,
+            name: String,
+            field: String,
+            className: String,
+            options: {}
+        }
+    ],
     locales: [
         {
             name: String,

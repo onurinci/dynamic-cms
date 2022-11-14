@@ -13,5 +13,6 @@ const multerUploader = multer({
 const { MediaAdminController } = require('./../controllers');
 router.post('', multerUploader.array('files'), MediaAdminController.create);
 router.get('/', MediaAdminController.getAll);
+router.post('/deleteMany', MediaAdminController.deleteMany);
 
 module.exports = router;

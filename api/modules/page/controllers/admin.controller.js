@@ -31,13 +31,28 @@ const getById = async (req, res, next) => {
 
     const data = await service.getById(req?.params);
     const localeData = data?.locales?.find(w => w.name == locale);
-    
     const newData = {
         _id: data?._id,
         pageTitle: data?.pageTitle,
         pageType: data?.pageType,
         controls: data?.controls,
         contents: localeData?.contents || [],
+    };
+    return res.status(200).json(newData);
+}
+
+// get by id
+const getByOnlyId = async (req, res, next) => {
+
+    const { id } = req?.params;
+    if (!id)
+        return res.status(400).json({"error": "id required"});
+
+    const data = await service.getById(req?.params);
+    const newData = {
+        _id: data?._id,
+        pageTitle: data?.pageTitle,
+        controls: data?.controls
     };
     return res.status(200).json(newData);
 }
@@ -87,10 +102,55 @@ const addItem = async (req, res, next) => {
     }
 };
 
+// create control
+const createControl = async (req, res, next) => {
+
+    let { id } = req?.params;
+    const body = req?.body;
+
+    console.log("id = ", id);
+    console.log("body = ", body);
+
+    if (!id)
+        return res.status(400).json({ message: "required id" });
+
+    if (!body)
+        return res.status(400).json({ message: "required body" });
+
+    try {
+        const response = service.createControl(id, body);
+        return res.status(201).json(response);
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json(err);
+    }
+};
+
+// delete control
+const deleteBuilderControl = async (req, res, next) => {
+
+    let { pageId, controlId } = req?.body;
+    if (!pageId)
+        return res.status(400).json({ "error message": "pageId required" });
+
+    if (!controlId)
+        return res.status(400).json({ "error message": "controlId required" });
+
+    try {
+        const result = await service.deleteBuilderControl(req?.body);
+        return res.status(200).json({ status: "deleted" });
+    } catch (err) {
+        return res.status(500).json(err);
+    }
+};
+
 module.exports = {
     create,
     getAll,
     getById,
+    getByOnlyId,
     contentSave,
-    addItem
+    deleteBuilderControl,
+    addItem,
+    createControl
 };
