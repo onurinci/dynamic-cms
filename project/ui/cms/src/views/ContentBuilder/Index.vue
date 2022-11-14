@@ -121,8 +121,6 @@
     } else if(formValues.pageType == 'collectionType') {
       apiData = await axios.post('http://172.17.20.174:3001/api/admin/collection',formValues);
     }
-
-    console.log(apiData);
   }
 
 </script>

@@ -48,7 +48,6 @@
   import axios from "axios";
   import Input from "@/components/ContentManager/Forms/Input.vue";
   import Select from "@/components/ContentManager/Forms/Select.vue";
-  import File from "@/components/ContentManager/Forms/File.vue";
   import {mediaStore} from "@/store/media.js";
 
   // İnitialize

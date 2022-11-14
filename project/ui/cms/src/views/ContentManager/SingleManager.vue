@@ -24,11 +24,21 @@
             v-model="data.formValues[index].value" />
       </div>
       <div v-if="input?.field === 'InputImage' "> <!-- InputImage -->
-        <label> {{ input?.label }} </label>
-        <div class="fileManager">
-          <div class="fileCon" v-for="file in files">
-            <div class="chk"><input type="checkbox" @change="getSelectedFiles($event, file?.filename, index)" /></div>
-            <img :src="file?.url" />
+        <div class="mb-2">
+          {{ input?.label }}
+        </div>
+        <div>
+          <button class="btn btn-primary" @click="openMediaModal(index)">Media Seçin...</button>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="fileManager">
+              <div class="fileCon" v-for="file in data.formValues[index].value">
+                <button @click="removeImage(index,file)">x</button>
+                <img :src=" `http://172.17.20.174:3001/uploads/media/${file}` " />
+              </div>
+              <div class="clearfix"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -39,23 +49,22 @@
       <button class="btn btn-success" @click="save">Kaydet</button>
     </div>
   </div>
-
-  {{ data.formValues }}
 </template>
 
 <script setup>
-  import { useRoute } from 'vue-router';
-  import {computed, onMounted, reactive, ref} from "vue";
+  import {useRoute} from 'vue-router';
+  import {onMounted, reactive, inject} from "vue";
   import axios from "axios";
   import Input from '@/components/ContentManager/Forms/Input.vue';
   import Select from '@/components/ContentManager/Forms/Select.vue';
-  import File from '@/components/ContentManager/Forms/File.vue';
-  import Collection from '@/components/ContentManager/Forms/Collection.vue'
+  import Collection from '@/components/ContentManager/Forms/Collection.vue';
+  import Media from '@/components/ContentManager/Forms/Media.vue';
   import {mediaStore} from "@/store/media.js";
 
   const route = useRoute();
   const storeMedia = mediaStore();
 
+  const $vfm = inject("$vfm");
 
   const data = reactive({
     pageId: "",
@@ -73,7 +82,7 @@
 
   const getDetailsByPageId = async () => {
     data.pageData = (await axios.get(`http://172.17.20.174:3001/api/admin/page/${data.pageId}/${data.activeLocale}`)).data;
-    data.pageData.controls.forEach(f => {
+    data.pageData.controls?.forEach(f => {
       if(f.field === "InputImage"){
         data.formValues.push({
           'name': f.name,
@@ -92,10 +101,20 @@
           'value': data.pageData?.contents?.find(x => x.name == f.name )?.value || "",
         });
       }
+      if(f.field === "InputVideo"){
+        data.formValues.push({
+          'name': f.name,
+          'value': data.pageData?.contents?.find(x => x.name == f.name )?.value || [], //
+        });
+      }
+      if(f.field === "InputSelect"){
+        data.formValues.push({
+          'name': f.name,
+          'value': data.pageData?.contents?.find(x => x.name == f.name )?.value || [], //
+        });
+      }
     });
   }
-
-
 
   const save = async () => {
     const params = {
@@ -106,23 +125,23 @@
     console.log(apiData);
   }
 
-  const getSelectedFiles = (event,name,index) => {
-    if(event.target.checked){
-      data.formValues[index].value.push(name);
-      console.log("checked values", data.formValues[index].value);
-    }
-    else{
-      const arr = data.formValues[index].value;
-      if (!arr || arr.length < 1) {
-        return;
+  const openMediaModal = (index) => {
+    $vfm.show({
+      component: Media,
+      on: {
+        async selectedImages(args){
+          data.formValues[index].value = args.images;
+          args.close(); // modal'ı kapatır.
+        }
       }
-      arr.splice(arr.indexOf(name), 1);
-    }
+    });
   }
 
-  const files = computed(() => {
-    return storeMedia._files;
-  });
+  const removeImage = (index,file) => {
+    const arr = data.formValues[index].value;
+    arr.splice(arr.indexOf(file), 1);
+    console.log(index,file);
+  }
 
 </script>
 

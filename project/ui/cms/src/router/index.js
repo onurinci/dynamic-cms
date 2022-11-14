@@ -17,6 +17,11 @@ const routes = [
                 component: () => import('@/views/ContentBuilder/Index.vue')
             },
             {
+                path: '/contentBuilder/:id',
+                name: 'ContentBuilderEdit',
+                component: () => import('@/views/ContentBuilder/Edit.vue')
+            },
+            {
                 path: '/contentmanager/singleType/:id/:locale',
                 name: 'SingleManager',
                 component: () => import('@/views/ContentManager/SingleManager.vue')
