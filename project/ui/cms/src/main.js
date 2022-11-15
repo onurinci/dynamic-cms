@@ -27,6 +27,10 @@ app.component('InputCollection', defineAsyncComponent({
     loader: () => import('./components/ContentBuilder/InputCollection.vue')
 }));
 
+app.component('InputTextarea',defineAsyncComponent({
+    loader: () => import('./components/ContentBuilder/InputTextarea.vue')
+}));
+
 app.use(router);
 app.use(vfmPlugin);
 app.use(createPinia());

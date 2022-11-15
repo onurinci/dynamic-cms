@@ -17,6 +17,7 @@
           <option value="InputImage">Resim Alanı</option>
           <option value="InputVideo">Video Alanı</option>
           <option value="InputCollection">Liste Alanı</option>
+          <option value="InputTextarea">İçerik Alanı</option>
         </select>
         <button class="btn btn-danger ms-2" @click="deleteField(item?._id)">Alanı Sil</button>
       </div>
@@ -41,6 +42,7 @@
           <option value="InputImage">Resim Alanı</option>
           <option value="InputVideo">Video Alanı</option>
           <option value="InputCollection">Liste Alanı</option>
+          <option value="InputTextarea">İçerik Alanı</option>
         </select>
         <button class="btn btn-success ms-2" @click="addField">Kaydet</button>
       </div>

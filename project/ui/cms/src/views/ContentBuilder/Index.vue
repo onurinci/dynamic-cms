@@ -27,11 +27,15 @@
       <label>Alan Seçin</label>
       <select class="form-select" v-model="formValues.controls[item-1].field" @change="openModal($event,item-1)">
         <option value="InputText">Yazı Alanı</option>
+        <option value="InputTextarea">İçerik Alanı</option>
         <option value="InputSelect">Seçim Alanı</option>
         <option value="InputImage">Resim Alanı</option>
         <option value="InputVideo">Video Alanı</option>
         <option value="InputCollection">Liste Alanı</option>
       </select>
+    </div>
+    <div class="col-md-12 mb-2">
+      {{ formValues.controls[item-1].options }}
     </div>
   </div>
 
@@ -65,6 +69,7 @@
   import {inject, ref, reactive} from "vue";
   import {replaceChar} from '@/utils/helper.js';
   import axios from 'axios';
+  import alertService from "@/utils/AlertService.js";
 
   // inject
   const $vfm = inject('$vfm');
@@ -72,6 +77,8 @@
   const show = ref(false);
 
   const getOptions = (options) => {
+    alertService.success('Kaydedild');
+    show.value = false;
     formValues.controls[data.selectedIndex].options = options;
   }
 
@@ -81,7 +88,6 @@
     selectedType: "InputText",
     selectedIndex: -1,
   });
-
   const formValues = reactive({
     pageType : "0",
     pageTitle: "",
@@ -115,11 +121,15 @@
   };
 
   const sendData = async () => {
-    let apiData = [];
-    if(formValues.pageType == 'singleType'){
-      apiData = await axios.post('http://172.17.20.174:3001/api/admin/page',formValues);
-    } else if(formValues.pageType == 'collectionType') {
-      apiData = await axios.post('http://172.17.20.174:3001/api/admin/collection',formValues);
+    try {
+      if(formValues.pageType === 'singleType'){
+        await axios.post('http://172.17.20.174:3001/api/admin/page',formValues);
+      } else if(formValues.pageType === 'collectionType') {
+        await axios.post('http://172.17.20.174:3001/api/admin/collection',formValues);
+      }
+      alertService.success('Başarıyla kaydedildi');
+    } catch (e) {
+      alertService.failure('Bilinmeyen hata oluştu');
     }
   }
 

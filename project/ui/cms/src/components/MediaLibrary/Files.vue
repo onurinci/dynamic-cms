@@ -1,15 +1,16 @@
 <template>
   <div class="row mt-5">
     <div class="col-md-2 mt-2 clickDiv" v-for="(file, index) in files"  :key="file?.url">
-      <div class="img-rep img" ref="images" @click="addImage($event, file?.filename, index)">
-        <img :src="file?.url">
+      <div class="img-rep img" :id="file._id" @click="addImage($event, file, index)" > <!--  -->
+        <img :src="file?.url" style="pointer-events: none !important;">
       </div>
     </div>
   </div>
+
 </template>
 
 <script setup>
-import {reactive, ref} from "vue";
+import {reactive} from "vue";
 
   defineProps({
     files: Array
@@ -17,24 +18,14 @@ import {reactive, ref} from "vue";
 
   const emit = defineEmits(["selected-images"]);
 
-  const images = ref([]);
-
   const data = reactive({
     selectedImages: []
   })
 
-  const addImage = (event, imageName, index) => {
-
-    /*var button = document.getElementById('button');
-    button.querySelector('h3').addEventListener('click',function(){
-      button.classList.toggle('open');
-    });*/
-
-    if(data.selectedImages.indexOf(imageName) === -1){
-      data.selectedImages.push(imageName);
-      images.value[index].classList.add('imgclick');
-      //event.target.classList.add('imgclick');
-
+  const addImage = (event, file, index) => {
+    if(data.selectedImages.indexOf(file?.filename) === -1){
+      data.selectedImages.push(file?.filename);
+      document.getElementById(file?._id).classList.add("imgClick");
     }
     else{
       const arr = data.selectedImages;
@@ -42,12 +33,9 @@ import {reactive, ref} from "vue";
         return;
       }
       arr.splice(arr.indexOf(name), 1);
-      //event.target.classList.remove('imgclick');
-      images.value[index].classList.remove('imgclick');
+      document.getElementById(file?._id).classList.remove("imgClick");
     }
-
     emit('selected-images',data.selectedImages);
-
   }
 
 
@@ -79,17 +67,8 @@ import {reactive, ref} from "vue";
     vertical-align: unset !important;
   }
 
-  img {
-
-  }
-
-  .imgclick {
+  .imgClick {
     box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
-  }
-
-  .imgclick < .col-md-2 {
-     background: #000 !important;
-    border: 3px solid red !important;
   }
 
 </style>

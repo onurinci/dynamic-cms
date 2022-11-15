@@ -12,6 +12,8 @@
     z-index: 20000 !important;
 }
 
+.clickDiv * {
+}
 
 .fileManager {
     margin-top: 20px;
