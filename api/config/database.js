@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
 const db = mongoose.connection;
+const SeedService = require('./seed');
+
+const seedService = new SeedService();
 
 db.once("open", () => { });
 const connect = () => {
@@ -7,9 +10,15 @@ const connect = () => {
         useUnifiedTopology: true,
         useNewUrlParser: true
     }).then(() => {
+
+        // prod
         if (process.env.NODE_ENV != 'test') {
             console.log('db connected...');
         }
+
+        // seed
+        seedService.language();
+
     })
     .catch((err) => {
         console.log(`Error connection database: ${err}`);
