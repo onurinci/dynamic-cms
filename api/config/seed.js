@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const Internationalization = require("./../modules/internationalization/models/internationalization");
 const { InternationalizationService } = require("./../modules/internationalization/services");
 
 const internationalizationService = new InternationalizationService();
