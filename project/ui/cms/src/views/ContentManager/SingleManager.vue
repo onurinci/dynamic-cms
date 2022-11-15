@@ -35,7 +35,7 @@
             <div class="fileManager">
               <div class="fileCon" v-for="file in data.formValues[index].value">
                 <button @click="removeImage(index,file)">x</button>
-                <img :src=" `http://172.17.20.174:3001/uploads/media/${file}` " />
+                <img alt="image" :src=" `http://172.17.20.174:3001/uploads/media/${file}` " />
               </div>
               <div class="clearfix"></div>
             </div>
@@ -140,7 +140,6 @@
   const removeImage = (index,file) => {
     const arr = data.formValues[index].value;
     arr.splice(arr.indexOf(file), 1);
-    console.log(index,file);
   }
 
 </script>

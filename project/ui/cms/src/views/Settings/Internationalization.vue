@@ -13,7 +13,7 @@
               <th>Açıklama</th>
               <th>Kısaltma</th>
               <th>Varsayılan</th>
-              <td></td>
+              <td>İşlemler</td>
             </tr>
           </thead>
           <tbody>
