@@ -1,10 +1,17 @@
 <template>
 
   <div class="row mb-3">
-    <div class="col-md-12 text-end ">
+    <div class="col-md-9">
       <router-link :to="`/contentmanager/collectionType/${data.pageId}/${data.activeLocale}/new`">
         <button class="btn btn-primary" >Yeni İçerik Ekleyin</button>
       </router-link>
+    </div>
+    <div class="col-md-3">
+      <label>Dil Seçin</label>
+      <select class="form-control" :value="data.activeLocale" @change="router.push({ path: `/contentmanager/collectionType/${data.pageId}/${$event.target.value}` })">
+        <option value="tr" >Türkçe</option>
+        <option value="en" >İngilizce</option>
+      </select>
     </div>
   </div>
 
@@ -15,11 +22,18 @@
           <thead>
             <tr>
               <th v-for="data in data.pageData?.controls"> {{ data?.label }} </th>
+              <th>İşlemler</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="content in data.pageData.contents">
               <td v-for="data in content?.data"> {{ data?.value }} </td>
+              <td>
+                <div class="d-flex">
+                  <button class="btn btn-sm btn-success me-2">Düzenle</button>
+                  <button class="btn btn-sm btn-danger">Sil</button>
+                </div>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -30,11 +44,12 @@
 
 <script setup>
   import {onMounted, reactive, ref} from "vue";
-  import {useRoute} from "vue-router";
+  import {useRoute, useRouter} from "vue-router";
   import axios from "axios";
 
   // İnitialize
   const route = useRoute();
+  const router = useRouter();
 
   // Variables
   const data = reactive({
