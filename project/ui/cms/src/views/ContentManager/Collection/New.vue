@@ -166,7 +166,14 @@
       name: data.activeLocale,
       data: data.formValues,
     };
-    const apiData = (await axios.post(`http://172.17.20.174:3001/api/admin/collection/${data.pageId}/content/addItem`, params)).data;
+
+    try {
+      await axios.post(`http://172.17.20.174:3001/api/admin/collection/${data.pageId}/content/addItem`, params);
+      alertService.success('Kaydedildi');
+    } catch (e) {
+      alertService.failure('Bilinmeyen hata oluştu');
+    }
+
   }
 
 </script>

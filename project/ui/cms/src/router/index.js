@@ -37,6 +37,11 @@ const routes = [
                 component: () => import('@/views/ContentManager/Collection/New.vue')
             },
             {
+                path: '/contentmanager/collectionType/:id/:locale/:entryId/edit',
+                name: 'EditCollection',
+                component: () => import('@/views/ContentManager/Collection/Edit.vue')
+            },
+            {
                 path: '/mediaLibrary',
                 name: 'MediaLibrary',
                 component: () => import('@/views/MediaLibrary/Index.vue')

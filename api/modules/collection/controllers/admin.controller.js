@@ -14,7 +14,7 @@ const getAll = async (req, res, next) => {
     const { pageType } = req?.query;
     if (!pageType)
         return res.status(400).json({"error": "pageType required"});
-        
+
     const data = await service.getAll(pageType);
     return res.status(200).json(data);
 };
@@ -31,7 +31,7 @@ const getById = async (req, res, next) => {
 
     const data = await service.getById(req?.params);
     const localeData = data?.locales.find(w => w.name == locale);
-    
+
     const newData = {
         _id: data?._id,
         pageTitle: data?.pageTitle,
@@ -40,6 +40,17 @@ const getById = async (req, res, next) => {
         contents: localeData?.contents || [],
     };
     return res.status(200).json(newData);
+}
+
+const getEntryDetails = async (req, res, next) => {
+    const data = {
+        id: req.params.id,
+        name: req.params.locale,
+        entryId: req.params.entryId
+    }
+
+    const response = await service.getEntryDetails(data);
+    return res.status(200).json(response);
 }
 
 // content save
@@ -65,7 +76,7 @@ const contentSave = async (req, res, next) => {
             "success": false,
             "result": err
         });
-    }  
+    }
 };
 
 // add new collection
@@ -92,5 +103,6 @@ module.exports = {
     getAll,
     getById,
     contentSave,
-    addItem
+    addItem,
+    getEntryDetails
 };

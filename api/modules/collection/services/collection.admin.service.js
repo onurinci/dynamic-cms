@@ -35,6 +35,16 @@ class CollectionAdminService {
         return await Collection.findOne({ "_id": id })
     }
 
+    async getEntryDetails(dto){
+        return await Collection.findOne(
+            {"_id" : dto.id, "locales.$[el].contents._id" : dto.entryId},
+            {},
+            {
+                arrayFilters: [{ "el.name": dto?.name }]
+            }
+        )
+    }
+
     // add item collection
     async addItem(id, dto) {
 
@@ -69,7 +79,7 @@ class CollectionAdminService {
 
         // let locales = data?.locales;
         // let single = locales.find(w => w.name == dto?.name);
-// 
+//
         // if (!single) {
         //     locales.push(dto);
         //     console.log("locales", locales);
@@ -81,11 +91,11 @@ class CollectionAdminService {
         //             new: true
         //         });
         // }
-// 
+//
         // let index = locales.indexOf(single);
         // single.contents = dto.contents;
-        
-        
+
+
         // return await Collection.findOneAndUpdate(
         //     { _id: id },
         //     { $push: { "locales.$[el].contents" : dto.contents } },

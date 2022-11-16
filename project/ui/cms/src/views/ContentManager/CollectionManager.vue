@@ -17,7 +17,10 @@
 
   <div class="row">
     <div class="col-md-12">
-      <div class="table-responsive">
+      <div class="alert alert-warning" v-if=" data.pageData.contents?.length < 1">
+        Kayıt bulunamadı
+      </div>
+      <div class="table-responsive" v-if=" data.pageData.contents?.length > 0">
         <table class="table table-bordered">
           <thead>
             <tr>
@@ -30,7 +33,9 @@
               <td v-for="data in content?.data"> {{ data?.value }} </td>
               <td>
                 <div class="d-flex">
-                  <button class="btn btn-sm btn-success me-2">Düzenle</button>
+                  <router-link class="btn btn-sm btn-success me-2" :to=" `/contentmanager/collectionType/${data.pageId}/${data.activeLocale}/${content?._id}/edit` ">
+                    Düzenle
+                  </router-link>
                   <button class="btn btn-sm btn-danger">Sil</button>
                 </div>
               </td>
