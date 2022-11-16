@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-3 offset-9">
       <label>Dil Seçin</label>
-      <select class="form-control" @change="router.push({ path: `/contentmanager/collectionType/${data.pageId}/${$event.target.value}/new` })">
+      <select class="form-control" :value="data.activeLocale" @change="router.push({ path: `/contentmanager/collectionType/${data.pageId}/${$event.target.value}/new` })">
         <option value="tr" >Türkçe</option>
         <option value="en" >İngilizce</option>
       </select>
@@ -173,7 +173,5 @@
     } catch (e) {
       alertService.failure('Bilinmeyen hata oluştu');
     }
-
   }
-
 </script>

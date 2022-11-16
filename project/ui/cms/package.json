@@ -17,6 +17,7 @@
     "notiflix": "^3.2.5",
     "pinia": "^2.0.23",
     "vue": "^3.2.41",
+    "vue-easy-lightbox": "^1.10.0",
     "vue-filepond": "^7.0.3",
     "vue-final-modal": "^3.4.10",
     "vue-plugin-load-script": "^2.1.1",
