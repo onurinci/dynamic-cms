@@ -10,13 +10,13 @@ export const mediaStore = defineStore('media', {
     },
     actions: {
         async getFiles(){
-            this.files = (await axios.get('http://172.17.20.174:3001/api/admin/media'))?.data
+            this.files = (await axios.get('http://172.17.20.124:3001/api/admin/media'))?.data
         },
         async sendFiles(formData){
-            return await axios.post('http://172.17.20.174:3001/api/admin/media', formData);
+            return await axios.post('http://172.17.20.124:3001/api/admin/media', formData);
         },
         async deleteFiles(files){
-            await axios.post('http://172.17.20.174:3001/api/admin/media/deleteMany',files);
+            await axios.post('http://172.17.20.124:3001/api/admin/media/deleteMany',files);
         }
     }
 })

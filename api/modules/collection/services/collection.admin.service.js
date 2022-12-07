@@ -36,7 +36,14 @@ class CollectionAdminService {
     }
 
     async getEntryDetails(dto) {
-        return await Collection.findOne({ '_id': mongoose.Types.ObjectId(dto.id), 'locales.name': dto.name });
+        const response = await Collection.findOne({ '_id': mongoose.Types.ObjectId(dto.id), 'locales.name': dto.name });
+        const contents = response.locales[0].contents.find(f => f._id == dto.entryId)?.data;
+        const controls = response.controls;
+
+        return {
+            contents,
+            controls
+        }
     }
 
     // add item collection

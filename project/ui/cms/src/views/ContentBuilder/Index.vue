@@ -123,9 +123,9 @@
   const sendData = async () => {
     try {
       if(formValues.pageType === 'singleType'){
-        await axios.post('http://172.17.20.174:3001/api/admin/page',formValues);
+        await axios.post('http://172.17.20.124:3001/api/admin/page',formValues);
       } else if(formValues.pageType === 'collectionType') {
-        await axios.post('http://172.17.20.174:3001/api/admin/collection',formValues);
+        await axios.post('http://172.17.20.124:3001/api/admin/collection',formValues);
       }
       alertService.success('Başarıyla kaydedildi');
     } catch (e) {

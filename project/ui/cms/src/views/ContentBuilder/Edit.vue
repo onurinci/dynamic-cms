@@ -97,7 +97,7 @@
   })
 
   const getDataByPageId = async () => {
-    data.pageData = (await axios.get(`http://172.17.20.174:3001/api/admin/page/${data.pageId}`)).data;
+    data.pageData = (await axios.get(`http://172.17.20.124:3001/api/admin/page/${data.pageId}`)).data;
     console.log(data.pageData);
   }
 
@@ -106,7 +106,7 @@
       pageId: data.pageId,
       controlId: fieldId
     }
-    await axios.post(`http://172.17.20.174:3001/api/admin/page/${data.pageId}/deleteBuilderControl`, param);
+    await axios.post(`http://172.17.20.124:3001/api/admin/page/${data.pageId}/deleteBuilderControl`, param);
     await getDataByPageId();
   }
 
@@ -116,7 +116,7 @@
   };
 
   const addField = async () => {
-    await axios.post(`http://172.17.20.174:3001/api/admin/page/${data.pageId}/createControl`, formValues);
+    await axios.post(`http://172.17.20.124:3001/api/admin/page/${data.pageId}/createControl`, formValues);
     await getDataByPageId();
     formValues.field = "";
     formValues.label = "";

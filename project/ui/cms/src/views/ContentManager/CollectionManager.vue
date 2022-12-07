@@ -71,7 +71,7 @@
   });
 
   const getDetailsByPageId = async () => {
-    data.pageData = (await axios.get(`http://172.17.20.174:3001/api/admin/collection/${data.pageId}/${data.activeLocale}`)).data;
+    data.pageData = (await axios.get(`http://172.17.20.124:3001/api/admin/collection/${data.pageId}/${data.activeLocale}`)).data;
     console.log(data.pageData);
   }
 

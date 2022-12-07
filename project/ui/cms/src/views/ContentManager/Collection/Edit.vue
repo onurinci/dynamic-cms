@@ -34,7 +34,7 @@
             <div class="fileManager">
               <div class="fileCon" v-for="file in data.formValues[index].value" @click="showImage(file)">
                 <button class="deleteImage" v-on:click.prevent.stop="removeImage(index,file)">x</button>
-                <img alt="image" :src=" `http://172.17.20.174:3001/uploads/media/${file}` " />
+                <img alt="image" :src=" `http://172.17.20.124:3001/uploads/media/${file}` " />
               </div>
               <div class="clearfix"></div>
             </div>
@@ -98,47 +98,47 @@
   const getDetailsByPageId = async () => {
 
     try {
-      data.pageData = (await axios.get(`http://172.17.20.174:3001/api/admin/collection/${data.pageId}/${data.activeLocale}/${data.entryId}`)).data[0];
+      data.pageData = (await axios.get(`http://172.17.20.124:3001/api/admin/collection/${data.pageId}/${data.activeLocale}/${data.entryId}`)).data;
       console.log(data.pageData);
     } catch (e) {
       alertService.failure('Verileri çekerken hata oluştu');
     }
-
+    console.log("data => ", data.pageData);
     data.pageData.controls?.forEach(f => {
       if(f.field === "InputImage"){
         data.formValues.push({
           'name': f.name,
-          'value': data.pageData?.contents[0]?.find(x => x.name === f.name )?.value || [],
+          'value': data.pageData?.contents?.find(x => x.name === f.name )?.value || [],
         });
       }
       if (f.field === "InputText") {
         data.formValues.push({
           'name' : f.name,
-          'value': data.pageData?.contents[0]?.find(x => x.name === f.name )?.value || "",
+          'value': data.pageData?.contents?.find(x => x.name === f.name )?.value || "",
         });
       }
       if(f.field === 'InputCollection') {
         data.formValues.push({
           'name' : f.name,
-          'value': data.pageData?.contents[0]?.find(x => x.name === f.name )?.value || "",
+          'value': data.pageData?.contents?.find(x => x.name === f.name )?.value || "",
         });
       }
       if(f.field === "InputVideo"){
         data.formValues.push({
           'name': f.name,
-          'value': data.pageData?.contents[0]?.find(x => x.name === f.name )?.value || "",
+          'value': data.pageData?.contents?.find(x => x.name === f.name )?.value || "",
         });
       }
       if(f.field === "InputSelect"){
         data.formValues.push({
           'name': f.name,
-          'value': data.pageData?.contents[0]?.find(x => x.name === f.name )?.value || "",
+          'value': data.pageData?.contents?.find(x => x.name === f.name )?.value || "",
         });
       }
       if(f.field === "InputTextarea"){
         data.formValues.push({
           'name': f.name,
-          'value': data.pageData?.contents[0]?.find(x => x.name === f.name )?.value || "",
+          'value': data.pageData?.contents?.find(x => x.name === f.name )?.value || "",
         });
       }
     });
@@ -158,7 +158,7 @@
 
   const showImage = (file) => {
     visibleRef.value = true;
-    imgRef.value = `http://172.17.20.174:3001/uploads/media/${file}`;
+    imgRef.value = `http://172.17.20.124:3001/uploads/media/${file}`;
   }
 
   const removeImage = (index,file) => {
@@ -174,7 +174,7 @@
     };
 
     try {
-      await axios.post(`http://172.17.20.174:3001/api/admin/collection/${data.pageId}/content/update`, params);
+      await axios.post(`http://172.17.20.124:3001/api/admin/collection/${data.pageId}/content/update`, params);
       alertService.success('Kaydedildi');
     } catch (e) {
       alertService.failure('Bilinmeyen hata oluştu');

@@ -57,7 +57,7 @@
             <div class="fileManager">
               <div class="fileCon" v-for="file in data.formValues[index].value">
                 <button @click="removeImage(index,file)">x</button>
-                <img alt="image" :src=" `http://172.17.20.174:3001/uploads/media/${file}` " />
+                <img alt="image" :src=" `http://172.17.20.124:3001/uploads/media/${file}` " />
               </div>
               <div class="clearfix"></div>
             </div>
@@ -110,7 +110,7 @@
   const getDetailsByPageId = async () => {
 
     try {
-      data.pageData = (await axios.get(`http://172.17.20.174:3001/api/admin/page/${data.pageId}/${data.activeLocale}`)).data;
+      data.pageData = (await axios.get(`http://172.17.20.124:3001/api/admin/page/${data.pageId}/${data.activeLocale}`)).data;
     } catch (e) {
       alertService.failure('Verileri çekerken hata oluştu');
     }
@@ -162,7 +162,7 @@
     };
 
     try {
-      await axios.post(`http://172.17.20.174:3001/api/admin/page/${data.pageId}/content/save`, params);
+      await axios.post(`http://172.17.20.124:3001/api/admin/page/${data.pageId}/content/save`, params);
       alertService.success('Başarıyla kaydedildi');
     } catch (e) {
       alertService.failure('Bilinmeyen bir hata oluştu.');
