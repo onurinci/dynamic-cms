@@ -98,11 +98,30 @@ const addItem = async (req, res, next) => {
     }
 };
 
+const update = async (req, res, next) => {
+
+    let { id } = req?.params;
+    let { name, entryId, data } = req?.body;
+
+    try {
+        const created = await service.update(id, entryId, {
+            name: name,
+            contents: {
+                ...data
+            }
+        });
+        return res.status(201).json(created);
+    } catch (err) {
+        return res.status(500).json(err);
+    }
+};
+
 module.exports = {
     create,
     getAll,
     getById,
     contentSave,
     addItem,
+    update,
     getEntryDetails
 };

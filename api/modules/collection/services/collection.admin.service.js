@@ -35,33 +35,17 @@ class CollectionAdminService {
         return await Collection.findOne({ "_id": id })
     }
 
-    async getEntryDetails(dto){
-        return await Collection.findOne(
-            {"_id" : dto.id, "locales.$[el].contents._id" : dto.entryId},
-            {},
-            {
-                arrayFilters: [{ "el.name": dto?.name }]
-            }
-        )
+    async getEntryDetails(dto) {
+        return await Collection.findOne({ '_id': mongoose.Types.ObjectId(dto.id), 'locales.name': dto.name });
     }
 
     // add item collection
     async addItem(id, dto) {
-
-        console.log("");
-        console.log("");
-        console.log(dto.contents);
-        console.log("");
-        console.log("");
-
-        let data = await Collection.findOne({ "_id": id });
         let localeControl = await Collection.findOne({ "_id": id, "locales.name": dto?.name });
-
-        // console.log(localeControl);
         if (localeControl) {
             return await Collection.findOneAndUpdate(
                 { "_id": id, "locales.name": dto?.name },
-                { $push: { "locales.$[el].contents" : {...dto.contents} } },
+                { $push: { "locales.$[el].contents": { ...dto.contents } } },
                 {
                     arrayFilters: [{ "el.name": dto?.name }],
                     new: true
@@ -76,59 +60,65 @@ class CollectionAdminService {
                 upsert: true,
                 new: true
             });
+    }
 
-        // let locales = data?.locales;
-        // let single = locales.find(w => w.name == dto?.name);
-//
-        // if (!single) {
-        //     locales.push(dto);
-        //     console.log("locales", locales);
-        //     return await Collection.findOneAndUpdate(
-        //         { "_id": id },
-        //         { $set: { "locales": locales } },
-        //         {
-        //             upsert: true,
-        //             new: true
-        //         });
+    // update
+    async update(id, entryId, dto) {
+
+        console.log(id);
+        console.log(entryId);
+        console.log(dto);
+
+        // let localeControl = await Collection.findOne({ "_id": id, "locales.name": dto?.name });
+        // if (!localeControl) {
+        //     return null;
         // }
-//
-        // let index = locales.indexOf(single);
-        // single.contents = dto.contents;
 
+        // db.collection.updateOne({_id: "611ed1a7e81cf2e4879a73f8"}, {$pull: {rooms: {_id: "611efbb06986120738b4092f"}}})
+        /*
+        db.survey.update( // select your doc in moongo
+            { }, // your query, usually match by _id
+            { $pull: { results: { $elemMatch: { score: 8 , item: "B" } } } }, // item(s) to match from array you want to pull/remove
+            { multi: true } // set this to true if you want to remove multiple elements.
+        )
+        */
+
+        try {
+            // contents: { _id: entryId }
+            // const data = await Collection.updateOne({ "_id": id }, { $pull: { locales: { name: dto.name, contents: { _id: entryId } } }});
+
+            const data = await Collection.updateOne(
+                { '_id': id, 'locales.contents._id': mongoose.Types.ObjectId(entryId) },
+                { $pull: { 'locales.$.contents': { _id: mongoose.Types.ObjectId(entryId) } } }
+            );
+            return data;
+
+            // const abc = await Collection.findOneAndDelete(entryId);
+            // console.log("abc => ", abc);
+
+            /*return await Page.updateOne(
+                { '_id': pageId },
+                { $pull: { 'controls': { _id: controlId } } });
+
+            console.log("entry", data);
+            */
+        } catch (error) {
+            console.log("error", error);
+        }
+
+        // return await Page.updateOne(
+        //     { '_id': id },
+        //     { $pull: { "locales.name": dto?.name, 'locales.name': { _id: controlId } } });
 
         // return await Collection.findOneAndUpdate(
-        //     { _id: id },
-        //     { $push: { "locales.$[el].contents" : dto.contents } },
+        //     { "_id": id, "locales.name": dto?.name },
+        //     { $push: { "locales.$[el].contents": { ...dto.contents } } },
         //     {
         //         arrayFilters: [{ "el.name": dto?.name }],
-        //         upsert: true,
         //         new: true
         //     }
         // );
 
-        /* let data = await Collection.findOne({ "id": id });
-        let control = data?.locales?.find(w => w.name == dto?.name);
-        if (!control) {
-            return await Collection.findOneAndUpdate(
-                { "_id": id },
-                { $push: { "locales": dto } },
-                {
-                    upsert: true
-                });
-        }
-
-        let locales = data?.locales;
-        let single = locales.find(w => w.name == dto?.name);
-        let index = locales.indexOf(single);
-
-        locales[index].contents = dto.contents;
-        return await Collection.findOneAndUpdate(
-            { "_id": id },
-            { $set: { "contents": locales[index].contents } },
-            {
-                new: true
-            }
-        ); */
     }
 
     // save page content
